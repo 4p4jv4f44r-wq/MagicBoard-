@@ -13,13 +13,64 @@ function resize(){
 }
 resize();window.addEventListener("resize",resize);
 
-function point(e){const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}}
+function point(e){
+  const r=canvas.getBoundingClientRect();
+  return {
+    x:e.clientX-r.left,
+    y:e.clientY-r.top
+  };
+}
+
+canvas.style.touchAction="none";
+canvas.style.userSelect="none";
+canvas.style.webkitUserSelect="none";
+
 canvas.addEventListener("pointerdown",e=>{
   if(e.pointerType!=="pen") return;
-  drawing=true;canvas.setPointerCapture(e.pointerId);const p=point(e);lastX=p.x;lastY=p.y
+  e.preventDefault();
+
+  drawing=true;
+  canvas.setPointerCapture(e.pointerId);
+
+  const p=point(e);
+  lastX=p.x;
+  lastY=p.y;
 });
-canvas.addEventListener("pointermove",e=>{if(!drawing||e.pointerType!=="pen")return;const p=point(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y});
-["pointerup","pointercancel"].forEach(x=>canvas.addEventListener(x,()=>drawing=false));
+
+canvas.addEventListener("pointermove",e=>{
+  if(!drawing || e.pointerType!=="pen") return;
+  e.preventDefault();
+
+  const p=point(e);
+
+  ctx.beginPath();
+  ctx.moveTo(lastX,lastY);
+  ctx.lineTo(p.x,p.y);
+  ctx.stroke();
+
+  lastX=p.x;
+  lastY=p.y;
+});
+
+canvas.addEventListener("pointerup",e=>{
+  if(e.pointerType==="pen"){
+    e.preventDefault();
+    drawing=false;
+    if(canvas.hasPointerCapture(e.pointerId)){
+      canvas.releasePointerCapture(e.pointerId);
+    }
+  }
+});
+
+canvas.addEventListener("pointercancel",e=>{
+  if(e.pointerType==="pen"){
+    drawing=false;
+    if(canvas.hasPointerCapture(e.pointerId)){
+      canvas.releasePointerCapture(e.pointerId);
+    }
+  }
+});
+
 
 const KEY="magicBoardBoards";
 function getBoards(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch{return[]}}
