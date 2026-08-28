@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#ffffff">
+<title>Magic Board</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main id="app">
+  <canvas id="board"></canvas>
+  <header>
+    <button id="archiveBtn" class="glass">📚 Archive</button>
+  </header>
+  <footer>
+    <button id="clearBtn" class="clear">✨ Clear &amp; Save</button>
+  </footer>
+</main>
+
+<section id="archive" class="hidden">
+  <div class="archiveHead">
+    <h1>Archive</h1>
+    <button id="closeArchive">Done</button>
+  </div>
+  <div id="grid"></div>
+  <p id="empty">Boards you save will appear here.</p>
+</section>
+
+<div id="viewer" class="hidden">
+  <button id="closeViewer">Done</button>
+  <img id="viewerImg" alt="Saved board">
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

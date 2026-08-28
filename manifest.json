@@ -1,0 +1,9 @@
+{
+  "name":"Magic Board",
+  "short_name":"Magic Board",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#ffffff",
+  "theme_color":"#ffffff",
+  "orientation":"landscape"
+}
