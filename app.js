@@ -14,8 +14,11 @@ function resize(){
 resize();window.addEventListener("resize",resize);
 
 function point(e){const r=canvas.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}}
-canvas.addEventListener("pointerdown",e=>{drawing=true;canvas.setPointerCapture(e.pointerId);const p=point(e);lastX=p.x;lastY=p.y});
-canvas.addEventListener("pointermove",e=>{if(!drawing)return;const p=point(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y});
+canvas.addEventListener("pointerdown",e=>{
+  if(e.pointerType!=="pen") return;
+  drawing=true;canvas.setPointerCapture(e.pointerId);const p=point(e);lastX=p.x;lastY=p.y
+});
+canvas.addEventListener("pointermove",e=>{if(!drawing||e.pointerType!=="pen")return;const p=point(e);ctx.beginPath();ctx.moveTo(lastX,lastY);ctx.lineTo(p.x,p.y);ctx.stroke();lastX=p.x;lastY=p.y});
 ["pointerup","pointercancel"].forEach(x=>canvas.addEventListener(x,()=>drawing=false));
 
 const KEY="magicBoardBoards";
